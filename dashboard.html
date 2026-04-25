@@ -62,8 +62,7 @@
             resDiv.className = "neutral";
 
             try {
-                const response = await fetch(`http://127.0.0.1:5000/get-signal?pair=${pair}`);
-                const data = await response.json();
+               const response = await fetch('https://bit.ly/Fatima-Bot-V2-Official');
 
                 pairDiv.innerText = data.pair;
                 resDiv.innerText = data.direction;
