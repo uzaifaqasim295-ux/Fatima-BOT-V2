@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fatima Algo Bot v2 - Dashboard</title>
+    <style>
+        body { background: #050505; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 20px; }
+        .container { background: #111; max-width: 450px; margin: 40px auto; padding: 30px; border-radius: 25px; border-bottom: 5px solid #ff0055; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        h1 { color: #ff0055; font-size: 28px; margin-bottom: 30px; }
+        select { width: 100%; padding: 15px; background: #1a1a1a; color: #00ffcc; border: 1px solid #333; border-radius: 12px; margin-bottom: 25px; font-size: 18px; outline: none; font-weight: bold; }
+        .display-area { background: #000; padding: 25px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #222; }
+        #pair-display { font-size: 20px; color: #ffcc00; margin-bottom: 10px; }
+        #signal-result { font-size: 45px; font-weight: 900; margin: 15px 0; letter-spacing: 2px; }
+        .call { color: #00ff88; text-shadow: 0 0 15px #00ff88; }
+        .put { color: #ff4444; text-shadow: 0 0 15px #ff4444; }
+        .neutral { color: #888; }
+        .btn-grant { width: 100%; padding: 18px; background: linear-gradient(45deg, #ff0055, #ff5500); border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 0, 85, 0.3); }
+        .btn-grant:hover { transform: scale(1.02); }
+        .status-bar { font-size: 14px; color: #555; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FATIMA ALGO BOT v2</h1>
+        
+        <select id="asset-pair">
+            <optgroup label="LIVE MARKET">
+                <option value="EURUSD=X">EUR/USD (LIVE)</option>
+                <option value="GBPUSD=X">GBP/USD (LIVE)</option>
+                <option value="USDJPY=X">USD/JPY (LIVE)</option>
+                <option value="AUDUSD=X">AUD/USD (LIVE)</option>
+            </optgroup>
+            <optgroup label="OTC MARKET">
+                <option value="EURUSD_OTC">EUR/USD (OTC)</option>
+                <option value="USDINR_OTC">USD/INR (OTC)</option>
+                <option value="USDBDT_OTC">USD/BDT (OTC)</option>
+                <option value="USDARS_OTC">USD/ARS (OTC)</option>
+            </optgroup>
+        </select>
+
+        <div class="display-area">
+            <div id="pair-display">READY TO START</div>
+            <div id="signal-result" class="neutral">---</div>
+            <div id="extra-info" style="color:#666;">Select Pair & Click Grant</div>
+        </div>
+
+        <button class="btn-grant" onclick="fetchSignal()">GRANT SIGNAL</button>
+        
+        <div class="status-bar" id="bot-status">System: Online</div>
+        <br>
+        <a href="index.html" style="color: #333; text-decoration: none; font-size: 12px;">LOGOUT</a>
+    </div>
+
+    <script>
+        async function fetchSignal() {
+            const pair = document.getElementById('asset-pair').value;
+            const resDiv = document.getElementById('signal-result');
+            const pairDiv = document.getElementById('pair-display');
+            const infoDiv = document.getElementById('extra-info');
+
+            resDiv.innerText = "ANALYZING...";
+            resDiv.className = "neutral";
+
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/get-signal?pair=${pair}`);
+                const data = await response.json();
+
+                pairDiv.innerText = data.pair;
+                resDiv.innerText = data.direction;
+                infoDiv.innerText = data.time;
+
+                if(data.direction.includes("UP")) resDiv.className = "call";
+                else if(data.direction.includes("DOWN")) resDiv.className = "put";
+                else resDiv.className = "neutral";
+
+            } catch (e) {
+                resDiv.innerText = "ERROR";
+                infoDiv.innerText = "Check if signal.py is running";
+            }
+        }
+    </script>
+</body>
+</html>

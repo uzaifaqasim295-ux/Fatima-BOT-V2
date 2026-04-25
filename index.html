@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fatima Algo Bot v2 - Login</title>
+    <style>
+        body { background: #050505; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-box { background: #111; padding: 40px; border-radius: 20px; border: 2px solid #ff0055; text-align: center; box-shadow: 0 0 30px rgba(255, 0, 85, 0.3); width: 320px; }
+        h2 { color: #ff0055; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        input { width: 100%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white; text-align: center; font-size: 16px; outline: none; }
+        input:focus { border-color: #ff0055; }
+        button { width: 100%; padding: 15px; border: none; border-radius: 10px; background: #ff0055; color: white; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #ff3377; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Fatima Bot v2</h2>
+        <p style="color: #888;">Enter VIP Access Key</p>
+        <input type="text" id="botKey" placeholder="Enter Key Here">
+        <button onclick="login()">UNLOCK BOT</button>
+    </div>
+
+    <script>
+        function login() {
+            const key = document.getElementById('botKey').value;
+            if(key === "VIP-BOT-2026") {
+                alert("Access Granted! Welcome to Fatima Algo Bot v2");
+                window.location.href = "dashboard.html";
+            } else {
+                alert("Wrong Key! Access Denied.");
+            }
+        }
+    </script>
+</body>
+</html>
